@@ -50,6 +50,9 @@ export class FailTwo extends Scene {
             this.game.goToScene('LevelTwo')
         }
     }
+    onDeactivate() {
+        this.failMusic.pause()
+    }
 }
 
 

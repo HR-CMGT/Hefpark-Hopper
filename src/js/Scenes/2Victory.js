@@ -67,4 +67,7 @@ export class VictoryTwo extends Scene {
             this.game.goToScene('secondCutscene')
         }
     }
+    onDeactivate() {
+        this.failMusic.pause()
+    }
 }

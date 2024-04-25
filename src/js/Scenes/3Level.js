@@ -23,18 +23,20 @@ export class LevelThree extends ex.Scene {
     }
 
     onInitialize(_engine) {
-        super.onInitialize(_engine);
         this.game = _engine
         this.health = 2
     }
 
     onActivate(_context) {
         this.score.deleteScore()
-        super.onActivate(_context);
         this.bgMusic = Resources.Music
         this.bgMusic.loop = true
         this.bgMusic.play()
         this.startLevelThree()
+    }
+
+    onDeactivate() {
+        this.bgMusic.pause()
     }
 
     startLevelThree() {

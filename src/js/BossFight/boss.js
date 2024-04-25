@@ -72,14 +72,12 @@ export class BossSpider extends Actor {
     }
 
     doDamage(event) {
-
         if (event.other instanceof MaincharacterBoss) {
             console.log("ouch!");
             event.other.takeDamage(50);
-            this.DamageSound = new Audio(DamageSound)
+            this.DamageSound = Resources.DamageSound
             this.DamageSound.play()
         }
-
     }
 
     hitBoss(amount) {

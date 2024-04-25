@@ -111,6 +111,10 @@ import jumpSound from "../sounds/Jump.mp4"
 import bosscutsceneMusic from "../sounds/Bosscutscene.mp3"
 import bossmusic from "../sounds/boss.mp3"
 import characterattackSound from "../sounds/Attack.mp3"
+import coinSound from "../sounds/Coin.mp4"
+import spiderdamageSound from "../sounds/Bossdamage.mp3"
+import damageSound from "../sounds/Damage.mp3"
+
 
 const Resources = {
     FailMusic: new Sound(failMusic),
@@ -121,6 +125,9 @@ const Resources = {
     JumpSound: new Sound(jumpSound),
     BossMusic: new Sound(bossmusic),
     CharacterAttackSound: new Sound(characterattackSound),
+    CoinSound: new Sound(coinSound),
+    SpiderDamageSound: new Sound(spiderdamageSound),
+    DamageSound: new Sound(damageSound),
     
 
     // lvl one
@@ -222,10 +229,16 @@ const Resources = {
     ShortcutTwo: new ImageSource(shortcutTwo),
     ShortcutThree: new ImageSource(shortcutThree),
     ShortcutFour: new ImageSource(shortcutFour)
-
-
 }
-const ResourceLoader = new Loader([
+
+const ResourceLoader = new Loader({ fullscreenAfterLoad: true })
+for (let res of Object.values(Resources)) {
+    ResourceLoader.addResource(res)
+}
+
+
+/*
+const OLDResourceLoader = new Loader([
 
     Resources.FailMusic,
     Resources.VictoryMusic,
@@ -334,5 +347,6 @@ const ResourceLoader = new Loader([
     Resources.ShortcutThree,
     Resources.ShortcutFour
 ])
+*/
 
 export { Resources, ResourceLoader }

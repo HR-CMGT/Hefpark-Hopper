@@ -27,10 +27,6 @@ export class LevelOne extends ex.Scene {
         this.score = _engine.score
         this.health = 2
 
-        // _engine.input.keyboard.on("press", (evt) => {
-        //     this.removeTutorial()
-        // })
-
         // gamepad
         if (this.game.gamepad) {
             this.game.gamepad.on('button', () => this.removeTutorial())
@@ -58,10 +54,14 @@ export class LevelOne extends ex.Scene {
         this.startLevelOne()
     }
 
+    onDeactivate(){
+        this.bgMusic.pause()
+    }
+
     startLevelOne(_engine) {
         this.tutorialText = new ex.Label({
             text: "Move with the cursor keys or joystick. Defeat all spiders.",
-            pos: new ex.Vector(-140,100),
+            pos: new ex.Vector(-220,100),
             font: new ex.Font({
                 size: 30,
                 color: ex.Color.Black,

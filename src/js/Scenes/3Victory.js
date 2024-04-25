@@ -66,4 +66,7 @@ export class VictoryThree extends Scene {
             this.game.goToScene('thirdCutScene')
         }
     }
+    onDeactivate() {
+        this.victoryMusic.pause()
+    }
 }

@@ -1,7 +1,6 @@
 import * as ex from 'excalibur'
 import { Resources, ResourceLoader } from '../resources';
 import { Maincharacter } from './character';
-import coinSound from "../../sounds/Coin.mp4"
 
 export class Flower extends ex.Actor {
     score
@@ -17,6 +16,7 @@ export class Flower extends ex.Actor {
         this.graphics.use(Resources.Flower.toSprite()); //Image of flower
         this.scale = new ex.Vector(0.03, 0.03)
         this.score = score
+        this.coinSound = Resources.CoinSound
     }
 
     onInitialize() {
@@ -25,7 +25,6 @@ export class Flower extends ex.Actor {
 
     onCollisionStart(evt) {
         if (evt.other instanceof Maincharacter) {
-            this.coinSound = new Audio(coinSound)
             this.coinSound.play(100)
             this.score.incrementScore()
             this.kill()

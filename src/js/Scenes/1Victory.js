@@ -61,7 +61,11 @@ export class VictoryOne extends Scene {
 
     onPreUpdate(_engine, delta) {
         if (this.game.input.keyboard.wasPressed(Keys.Space)) {
+            this.victoryMusic.pause()
             this.game.goToScene('firstCutscene')
         }
+    }
+    onDeactivate() {
+        this.failMusic.pause()
     }
 }

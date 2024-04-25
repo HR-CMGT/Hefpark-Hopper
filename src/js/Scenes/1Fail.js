@@ -39,21 +39,19 @@ export class FailOne extends Scene {
         let tryAgain = new TryAgainButton()
         tryAgain.pos = new Vector(570, 450)
         tryAgain.on('pointerup', () => {
-            this.game.goToScene('LevelOne')
             this.failMusic.pause()
+            this.game.goToScene('LevelOne')
         })
         this.add(tryAgain)
     }
 
     onPreUpdate(_engine, delta) {
         if (this.game.input.keyboard.wasPressed(Keys.Space)) {
+            this.failMusic.pause()
             this.game.goToScene('LevelOne')
         }
     }
-
-    onDeactivate(_context) {
-        super.onDeactivate(_context);
-
-
+    onDeactivate() {
+        this.failMusic.pause()
     }
 }
