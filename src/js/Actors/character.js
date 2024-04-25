@@ -1,11 +1,12 @@
 import * as ex from "excalibur";
+import { Vector, Keys, Axes } from "excalibur";
 import { Resources } from "../resources";
 import { PlatformLvlOne } from "./platform.js";
 import { PlatformLvlTwo } from "./platform.js";
 import { PlatformLvlThree } from "./platform.js";
 import { Portal } from "./portal";
 import { Spider } from "./spiders";
-import jumpSound from "../../sounds/Jump.mp4"
+
 
 export class Maincharacter extends ex.Actor {
     health
@@ -16,11 +17,9 @@ export class Maincharacter extends ex.Actor {
     flowers
 
     constructor(flowers) {
-        const circle = ex.Shape.Circle(110, ex.vec(5, 25)) // Makes the bee a round shape so it can roll
         super({
             collisionType: ex.CollisionType.Active, // Gives the bee a collision with the platforms
-            collider: circle,
-            displayMode: ex.DisplayMode.FitScreen,
+            collider: ex.Shape.Circle(110, ex.vec(5, 25)),
         });
         this.graphics.use(Resources.Bee.toSprite()); // Bee picture
         this.health = 200;
@@ -31,83 +30,70 @@ export class Maincharacter extends ex.Actor {
         this.enableCapturePointer = true;
         this.body.gravity = true; //Gravity
         this.flowers = flowers
-
     }
 
     onInitialize(engine) {
         this.game = engine
-        engine.input.keyboard.enabled = true; //Keyboard binds
+        this.jumpSound = Resources.JumpSound
+        
+        // gamepad support - todo test
+        if (this.game.gamepad) {
+            this.game.gamepad.on('button', () => this.jump())
+        }
 
-        const keys = ex.Input.Keys; //Keys input
-
-        engine.input.keyboard.on("hold", (evt) => { //When you hold a key
-            if (evt.key === keys.A || evt.key === keys.Left) {
-                this.vel.x = -this.speed; //Move left with A or <--
-            } else if (evt.key === keys.D || evt.key === keys.Right) {
-                this.vel.x = this.speed; //Move right with D or -->
-            }
-        })
-
-        engine.input.keyboard.on("release", (evt) => { //When you release a key after you hold it
-            if (evt.key === keys.A || evt.key === keys.D || evt.key === keys.Left || evt.key === keys.Right) {
-                this.vel.x = 0; //Makes sure you stop instantly and don't roll on
-            }
-        });
-
-        engine.input.keyboard.on("press", (evt) => {
-            if (evt.key === keys.W || evt.key === keys.Up) { //Jumping
-                if (this.onGround === true) {
-                    this.jumpSound = new Audio(jumpSound)
-                    this.jumpSound.play(100)
-                    this.vel.y = -500
-                    this.onGround = false
-                    this.jumped = true
-                    console.log('jump')
-                }
-            }
-        })
         this.on('collisionstart', (evt) => this.onCollisionStart(evt))
     }
 
-    update(engine) {
+    jump() {
+        if (this.onGround === true) {
+            this.jumpSound.play(100)
+            this.vel.y = -500
+            this.onGround = false
+            this.jumped = true
+        }
+    }
+
+    onPreUpdate(engine) {
+        // MOVE
+        if (engine.input.keyboard.isHeld(Keys.A) || engine.input.keyboard.isHeld(Keys.Left)) {
+            this.vel.x = -this.speed
+        } else if (engine.input.keyboard.isHeld(Keys.D) || engine.input.keyboard.isHeld(Keys.Right)) {
+            this.vel.x = this.speed
+        } else {
+            this.vel.x = 0
+        }
+        // jump
+        if (this.game.input.keyboard.wasPressed(Keys.W) || this.game.input.keyboard.wasPressed(Keys.Up)) {
+            this.jump()
+        }
+        // gamepad support - todo test
+        if (this.game.gamepad) {
+            const xValue = this.gamepad.getAxes(Axes.LeftStickX)
+            this.vel = new Vector(xValue * 40, this.vel.y)
+        }
+        
+
+        // slow braking?
         if (this.vel.x > 0) {
             this.vel.x -= 10;
         } else if (this.vel.x < 0) {
             this.vel.x += 10;
         }
 
-        // if (this.vel.y === 0) {
-        //     this.onGround = true;
-        //     this.jumped = false;
-        // } else {
-        //     this.onGround = false;
-        // }
-
-        engine.currentScene.camera.x = this.pos.x + 80 //Tracking the bee with the camera
-        // Commented code for speeding the bee up with A & D, just for programming ease
-        // engine.input.keyboard.on("hold", (evt) => {
-        //     if (evt.key === ex.Input.Keys.A) {
-        //         this.vel.x = -800;
-        //     } else if (evt.key === ex.Input.Keys.D) {
-        //         this.vel.x = 800;
-        //     } else if (evt.key === ex.Input.Keys.W && this.onGround) {
-        //         this.jumped = true;
-        //         this.vel.y = -700;
-        //     }
-        // })
+        engine.currentScene.camera.x = this.pos.x + 80 
     }
 
     onCollisionStart(evt) {
         if (evt.other instanceof PlatformLvlOne) { //Checking if there is collision with the platforms
-            console.log("you're on the floor");
+            //console.log("you're on the floor");
             this.onGround = true;
         }
         if (evt.other instanceof PlatformLvlTwo) {
-            console.log("you're on the floor");
+            //console.log("you're on the floor");
             this.onGround = true;
         }
         if (evt.other instanceof PlatformLvlThree) {
-            console.log("you're on the floor");
+            //console.log("you're on the floor");
             this.onGround = true;
         }
 

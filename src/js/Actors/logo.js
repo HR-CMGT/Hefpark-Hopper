@@ -13,7 +13,7 @@ export class Logo extends Actor {
     onInitialize(){
 
         this.graphics.add(Resources.LogoImage.toSprite());
-        this.scale = new Vector(0.2, 0.2)
+        this.scale = new Vector(0.15, 0.15)
 
     }
 }

@@ -8,7 +8,7 @@ import * as ex from "excalibur";
 import { PlatformLvlOne, PlatformLvlTwo } from "../Actors/platform.js";
 import { SpikesLvlTwo } from "../Actors/spikes.js";
 import { Flower } from "../Actors/flower.js";
-import music from "../../sounds/bee..mp3"
+import { Resources, ResourceLoader } from '../resources.js'
 
 
 export class LevelTwo extends Scene {
@@ -29,9 +29,9 @@ export class LevelTwo extends Scene {
     }
 
     onActivate(_context) {
-        this.score.deleteScore()
         super.onActivate(_context);
-        this.bgMusic = new Audio(music)
+        this.score.deleteScore()
+        this.bgMusic = Resources.Music
         this.bgMusic.loop = true
         this.bgMusic.play()
         this.startLevelTwo()
@@ -40,8 +40,6 @@ export class LevelTwo extends Scene {
     startLevelTwo() {
 
         this.actors.forEach((actor) => actor.kill());
-
-        console.log('level two')
 
         const background = new BackgroundLvlTwo(-550, 0)
         this.add(background)
@@ -300,9 +298,13 @@ export class LevelTwo extends Scene {
     }
     onPostUpdate(_engine, _delta) {
         super.onPostUpdate(_engine, _delta);
-        this.scoreLabel.pos = this.character.pos.clone().add(new Vector(this.character.width, -80));
+        //this.scoreLabel.pos = this.character.pos.clone().add(new Vector(this.character.width, -80));
+        this.scoreLabel.pos = this.character.pos.add(new ex.Vector(-30, -100))
+
         const allSpiders = this.actors.filter((actor) => actor instanceof Spider);
         const allSpidersDead = allSpiders.every((egg) => egg.isKilled());
+        // DEBUGGING
+        // const allSpidersDead = true
 
         if (allSpidersDead === true) {
             // Remove ClosedPortal if it exists

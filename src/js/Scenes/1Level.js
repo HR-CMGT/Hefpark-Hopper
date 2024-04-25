@@ -1,5 +1,5 @@
-// import '../css/style.css'
 import * as ex from "excalibur"
+import { Keys } from "excalibur"
 import { Resources, ResourceLoader } from '../resources.js'
 import { Maincharacter } from '../Actors/character.js'
 import { PlatformLvlOne } from '../Actors/platform.js'
@@ -8,109 +8,64 @@ import { SpikesLvlOne } from "../Actors/spikes.js"
 import { Spider } from "../Actors/spiders.js"
 import { ClosedPortalClass, Portal } from "../Actors/portal.js"
 import { Flower } from "../Actors/flower.js"
-import music from "../../sounds/bee..mp3"
-
 
 export class LevelOne extends ex.Scene {
     game
     health
     score
     character
-    righttext
-    lefttext
-    jumptext
+    tutorialText
     bgMusic
-    // sound
-    constructor(score) {
-        super({});
-        this.score = score
 
+    constructor(score) {
+        super();
+        // this.score = score
     }
 
     onInitialize(_engine) {
-
-        super.onInitialize(_engine);
         this.game = _engine
+        this.score = _engine.score
         this.health = 2
 
-        _engine.input.keyboard.enabled = true; //Keyboard binds
-        const keys = ex.Input.Keys; //Keys input
-        _engine.input.keyboard.on("press", (evt) => {
-            if (evt.key === keys.D && this.righttext != false || evt.key === keys.Right && this.righttext != false) {
-                setTimeout(() => {
-                    this.righttext.kill()
-                    this.righttext = false
-                    console.log(this.righttext)
-                }, 500)
-            }
-        })
+        // _engine.input.keyboard.on("press", (evt) => {
+        //     this.removeTutorial()
+        // })
 
+        // gamepad
+        if (this.game.gamepad) {
+            this.game.gamepad.on('button', () => this.removeTutorial())
+        }
+    }
 
-        _engine.input.keyboard.on("press", (evt) => {
-            if (evt.key === keys.A && this.righttext == false && this.lefttext != false || evt.key === keys.Left && this.righttext == false && this.lefttext != false) {
-                setTimeout(() => {
-                    this.lefttext.kill()
-                    this.lefttext = false
-                    console.log(this.lefttext)
-                }, 500)
-            }
-        })
+    onPreUpdate(_engine, delta) {
+        if (this.game.input.keyboard.wasPressed(Keys.Space) || this.game.input.keyboard.wasPressed(Keys.Up) || this.game.input.keyboard.wasPressed(Keys.Right)) {
+            this.removeTutorial()
+        }
+    }
 
-        _engine.input.keyboard.on("press", (evt) => {
-            if (evt.key === keys.W && this.lefttext == false && this.jumptext != false || evt.key === keys.Up && this.lefttext == false && this.jumptext != false) {
-                setTimeout(() => {
-                    this.jumptext.kill()
-                    this.jumptext = false
-                    console.log(this.jumptext)
-                }, 500)
-            }
-        })
-
-
-
+    removeTutorial() {
+        if (!this.tutorialText.isKilled()) {
+            this.tutorialText.kill()
+        }
     }
 
     onActivate(_context) {
-        this.score.deleteScore()
         super.onActivate(_context);
-        this.bgMusic = new Audio(music)
+        this.score.deleteScore()
+        this.bgMusic = Resources.Music
         this.bgMusic.loop = true
         this.bgMusic.play()
         this.startLevelOne()
     }
 
     startLevelOne(_engine) {
-
-        this.righttext = new ex.Label({
-            text: "Move right with right arrow or D",
-            pos: new ex.Vector(40, 250),
+        this.tutorialText = new ex.Label({
+            text: "Move with the cursor keys or joystick. Defeat all spiders.",
+            pos: new ex.Vector(-140,100),
             font: new ex.Font({
-                size: 40,
+                size: 30,
                 color: ex.Color.Black,
                 unit: ex.FontUnit.Px,
-                // family: 'Roboto'
-            })
-        })
-
-        this.lefttext = new ex.Label({
-            text: "Move left with left arrow or A",
-            pos: new ex.Vector(40, 250),
-            font: new ex.Font({
-                size: 40,
-                color: ex.Color.Black,
-                unit: ex.FontUnit.Px,
-                // family: 'Roboto'
-            })
-        })
-
-        this.jumptext = new ex.Label({
-            text: "Jump with up arrow or W",
-            pos: new ex.Vector(40, 250),
-            font: new ex.Font({
-                size: 40,
-                color: ex.Color.Black,
-                unit: ex.FontUnit.Px,
-                // family: 'Roboto'
             })
         })
 
@@ -122,8 +77,8 @@ export class LevelOne extends ex.Scene {
         this.add(background);
 
 
-        //Tutorial text moving right
-        this.add(this.righttext)
+        //Tutorial text 
+        this.add(this.tutorialText)
 
         // Right invisible wall
         let leftWall = new ex.Actor({
@@ -382,24 +337,16 @@ export class LevelOne extends ex.Scene {
             this.bgMusic.pause()
         }
     }
-
-    onPreUpdate() {
-        this.scoreLabel.text = `Score: ${this.score.getScore()}`
-        //Tutorial text moving left
-        if (this.righttext == false && this.lefttext != false) {
-            this.add(this.lefttext)
-        }
-
-        if (this.lefttext == false && this.jumptext != false) {
-            this.add(this.jumptext)
-        }
-
-    }
-
+    
     onPostUpdate(_engine, _delta) {
         super.onPostUpdate(_engine, _delta);
-        this.scoreLabel.pos = this.character.pos.clone().add(new ex.Vector(this.character.width, -80))
+        
+        this.scoreLabel.text = `Score: ${this.score.getScore()}`
+        //this.scoreLabel.pos = this.character.pos.clone().add(new ex.Vector(this.character.width, -80))
+        this.scoreLabel.pos = this.character.pos.add(new ex.Vector(-30, -100))
+
         const mainCharacter = this.actors.find((actor) => actor instanceof Maincharacter);
+        //const mainCharacter = this.character
 
         if (!mainCharacter) {
             this.game.goToScene('FailOne')

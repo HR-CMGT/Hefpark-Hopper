@@ -2,7 +2,7 @@ import { Color, Font, FontUnit, Label, Scene, Vector } from "excalibur";
 import { NextLvlButton } from "../Actors/button.js";
 import { VictoryText } from "../Scenes/failVictoryActors/text.js";
 import { BossFailVicBackground } from "../Scenes/failVictoryActors/background.js";
-import BossvictoryMusic from "../../sounds/Victoryboss.mp4"
+import { Resources } from "../resources.js";
 
 export class VictoryBoss extends Scene {
     game
@@ -17,22 +17,22 @@ export class VictoryBoss extends Scene {
     }
     onActivate(_context) {
         super.onActivate(_context);
-        this.BossvictoryMusic = new Audio(BossvictoryMusic)
+        this.BossvictoryMusic = Resources.BossvictoryMusic
         this.BossvictoryMusic.play()
         this.startVictoryBoss()
     }
     startVictoryBoss() {
         this.actors.forEach((actor) => actor.kill());
-        console.log('victory boss')
+        //console.log('victory boss')
         let background = new BossFailVicBackground(0, 0)
         this.add(background)
 
-        let victory = new VictoryText(screen.width / 2 - 100, 150)
+        let victory = new VictoryText(screen.width / 2 - 200, 150)
         this.add(victory)
 
         let label2 = new Label({
-            text: `Score: ${this.score}`,
-            pos: new Vector(500, 400),
+            text: `Score: ${this.score.getScore()}`,
+            pos: new Vector(480, 400),
             font: new Font({
                 family: 'impact',
                 size: 35,
@@ -43,7 +43,7 @@ export class VictoryBoss extends Scene {
         this.add(label2)
         let label3 = new Label({
             text: `You've finished the game`,
-            pos: new Vector(500, 300),
+            pos: new Vector(380, 300),
             font: new Font({
                 family: 'impact',
                 size: 35,

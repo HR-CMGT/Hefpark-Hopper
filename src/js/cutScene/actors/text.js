@@ -3,7 +3,7 @@ import {Actor, Vector, Sprite} from "excalibur";
 export class CsTextBox extends Actor {
     constructor(image) {
         super({
-            pos: new Vector(650, 450),
+            pos: new Vector(560, 420),
             width: 800,
             height: 201,
             anchor: new Vector(0.5,0.5),

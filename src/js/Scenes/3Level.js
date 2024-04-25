@@ -9,7 +9,7 @@ import { MainSpike } from "../Actors/spikes.js"
 import { Spider } from "../Actors/spiders.js"
 import { ClosedPortalClass, Portal } from "../Actors/portal.js"
 import { Flower } from "../Actors/flower.js"
-import music from "../../sounds/bee..mp3"
+//import music from "../../sounds/bee..mp3"
 
 
 export class LevelThree extends ex.Scene {
@@ -31,7 +31,7 @@ export class LevelThree extends ex.Scene {
     onActivate(_context) {
         this.score.deleteScore()
         super.onActivate(_context);
-        this.bgMusic = new Audio(music)
+        this.bgMusic = Resources.Music
         this.bgMusic.loop = true
         this.bgMusic.play()
         this.startLevelThree()
@@ -392,8 +392,8 @@ export class LevelThree extends ex.Scene {
     onPreCollision(event) {
         let otherActor = event.other
         if (otherActor instanceof Portal) {
-            this.game.goToScene('VictoryThree')
             this.bgMusic.pause()
+            this.game.goToScene('VictoryThree')
         }
     }
 
@@ -403,7 +403,8 @@ export class LevelThree extends ex.Scene {
 
     onPostUpdate(_engine, _delta) {
         super.onPostUpdate(_engine, _delta);
-        this.scoreLabel.pos = this.character.pos.clone().add(new ex.Vector(this.character.width, -80))
+        //this.scoreLabel.pos = this.character.pos.clone().add(new ex.Vector(this.character.width, -80))
+        this.scoreLabel.pos = this.character.pos.add(new ex.Vector(-30, -100))
         const mainCharacter = this.actors.find((actor) => actor instanceof Maincharacter);
 
         if (!mainCharacter) {

@@ -1,120 +1,87 @@
-import { Actor, Vector, Color, Sprite, Rectangle, ScreenElement, Font, FontUnit, Text, GraphicsGroup } from 'excalibur'
+import { Actor, Vector, Color, Label, Sprite, Rectangle, ScreenElement, Font, FontUnit, Text, GraphicsGroup } from 'excalibur'
 import { Resources } from '../resources';
 
 export class UI extends ScreenElement {
 
-    healthbar;
-    group;
+    healthbar
+    group
+    border
+    levelText
+    scoreText
+    hearts = []
 
     constructor(){
-
         super({ x: 10, y:10 });
-
-        this.healthbar = new Rectangle({
-            width: 300,
-            height: 40,
-            color: Color.Red,
-        });
-
-        this.border = new Rectangle({
-            width: 300,
-            height: 40,
-            color: Color.fromRGB(255,255,255,0.4)
-        });
-
     }
 
     onInitialize(engine){
+       
+        const whiteborder = new Rectangle({
+            width: 300,
+            height: 34,
+            color: Color.fromRGB(255, 255, 255, 0.4)
+        });
 
-        this.levelText = new Text({
-            text: 'Final boss',
+        this.border = new Actor()
+        this.border.graphics.use(whiteborder)
+        this.border.pos = new Vector(720, 60)
+        
+        this.levelText = new Label({
+            text: 'Final Boss',
+            pos: new Vector(10, 0),
             font: new Font({
-                unit: FontUnit.Px,
-                family: 'Arial',
-                size: 40,
-            }),
-        })
-
-        this.scoreText = new Text({
-            text: 'points:',
-            font: new Font({
-                unit: FontUnit.Px,
-                family: 'Arial',
+                family: 'impact',
                 size: 30,
-            }),
+                unit: FontUnit.Px,
+                color: Color.White
+            })
         })
 
-        this.group = new GraphicsGroup({
-            members: [
-                {
-                    graphic: this.levelText,
-                    pos: new Vector(10, 5),
-                },
-                {
-                    graphic: this.scoreText,
-                    pos: new Vector(10, 30),
-                },
-                {
-                    graphic: this.border,
-                    pos: new Vector(800, 200),
-                },
-                {
-                    graphic: this.healthbar,
-                    pos: new Vector(800, 200),
-                },
-                {
-                    graphic: Resources.BeeHeart.toSprite(),
-                    pos: new Vector(10, 50),
-                    scale: new Vector(0.1,0.1)
-                },
-                {
-                    graphic: Resources.BeeHeart.toSprite(),
-                    pos: new Vector(71, 50),
-                    scale: new Vector(0.1,0.1)
-                },
-                {
-                    graphic: Resources.BeeHeart.toSprite(),
-                    pos: new Vector(133, 50),
-                    scale: new Vector(0.1,0.1)
-                },
-                {
-                    graphic: Resources.BeeHeart.toSprite(),
-                    pos: new Vector(194, 50),
-                    scale: new Vector(0.1,0.1)
-                },
-                {
-                    graphic: Resources.BeeHeart.toSprite(),
-                    pos: new Vector(255, 50),
-                    scale: new Vector(0.1,0.1)
-                },
-                {
-                    graphic: Resources.BeeHeart.toSprite(),
-                    pos: new Vector(316, 50),
-                    scale: new Vector(0.1,0.1)
-                },
-
-            ]
+        this.scoreText = new Label({
+            text: 'Points: 0',
+            pos: new Vector(10, 30),
+            font: new Font({
+                family: 'impact',
+                size: 40,
+                unit: FontUnit.Px,
+                color: Color.White
+            })
         })
-        this.graphics.use(this.group);
+        this.healthbar = new Actor({ x: 720, y: 60, color: Color.Red, width: 300, height: 34 })
+        this.healthbar.anchor = Vector.Zero
+        this.border.anchor = Vector.Zero
+
+        this.addChild(this.levelText)
+        this.addChild(this.scoreText)
+        this.addChild(this.healthbar)
+        this.addChild(this.border)
+
+        // 6 hearts
+        for (let i = 0; i < 6; i++) {
+            const heart = new Actor()
+            heart.graphics.use(Resources.BeeHeart.toSprite());
+            heart.scale = new Vector(0.6, 0.6);
+            heart.pos = new Vector(40 + (i * 52), 100);
+            this.addChild(heart)
+            this.hearts.push(heart)
+        }
     }
 
     resetHealth(){
-        this.healthbar.width = 300;
+        this.healthbar.scale = new Vector(1, 1);
     }
 
     bossDamaged(currentHealth) {
-
-        this.healthbar.width = currentHealth;
-        
-        if (this.healthbar.width <= 0) {
-            console.log("congrasjulashions");
-        }
+        this.scene.engine.score.incrementScore(1)
+        this.scoreText.text = `Points: ${this.scene.engine.score.getScore()}`
+        this.healthbar.scale = new Vector(currentHealth/300, 1);
     }
 
     updateHealth(hearts){
-        console.log(hearts);                                       
-        if(hearts === 5){
-            this.group.members.pop();
-        }
+        for (let i = 0; i < 6; i++) {
+            if (i >= hearts) {
+                this.hearts[i].active = false
+            }
+        } 
     }
 }

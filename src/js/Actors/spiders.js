@@ -47,14 +47,14 @@ export class Spider extends ex.Actor {
             if (side === 'Top') {
                 this.SpiderdamageSound = new Audio(SpiderdamageSound)
                 this.SpiderdamageSound.play(100)
-                console.log('character killed a spider')
+                //console.log('character killed a spider')
                 this.kill()
 
             } else if (side === 'Right' || side === 'Left') {
                 this.DamageSound = new Audio(DamageSound)
                 this.DamageSound.play()
                 otherActor.kill()
-                console.log(`character walked into spider and died`)
+                //console.log(`character walked into spider and died`)
             }
         }
 

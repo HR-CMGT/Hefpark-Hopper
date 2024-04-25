@@ -9,9 +9,7 @@ export class Score {
         this.score = value
     }
     incrementScore() {
-        console.log(this.score)
         this.score = this.score + 1
-        console.log(this.score)
     }
 
     deleteScore() {

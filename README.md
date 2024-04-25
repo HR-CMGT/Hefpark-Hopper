@@ -1,15 +1,21 @@
-# Excalibur Startproject 2023
+# Hefpark Hopper
 
-![fishes](./src/images/preview.png)
+![cart](./src/images/hefpark-cart.png)
 
-- Klik op USE THIS TEMPLATE. Kies als owner jouw eigen github account. 
-- Geef het project een coole naam en check dat dit startproject nu in je eigen github staat.
-- CLONE de repository van jouw eigen github naar je lokale computer via de git url. Die vind je onder "code".
-- Open VS Code. Klik het "Source Control" icoontje. Kies voor "clone repository" en plak de git url.
-- VS Code haalt nu het startproject op en opent het automatisch.
-- Kies een map die je ook via localhost kan openen, bijvoorbeeld `xampp/htdocs/mijnproject`.
-- Typ `npm install` en `npm run dev` in de terminal in VS Code.
+Project van CLE team in 2023. 
+Aangepast voor arcade kast.
 
-[🔥 Bekijk het instructie filmpje!](https://youtu.be/UIVpe4L5_P4)
+Spring op alle spinnen om door te kunnen naar het volgende level.
 
-[Lees verder over het publiceren op github pages](https://github.com/HR-CMGT/PRG04-2022-2023/blob/main/setup.md)
+Updated naar excalibur 0.29
+
+## TODO
+
+- excalibur gamepad toevoegen
+- resolutie / logo's centreren voor arcade monitor 16/10. width 1440, height 900.
+- geen mouse clicks
+- geen startbutton in loading screen
+- levelselect buttons wordt lastig (2,3,4)
+- move all `new Audio()` to resources
+- move all assets to public folder, remove `import` for assets
+- images are too large, maximum 4096x4096

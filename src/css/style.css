@@ -1,5 +1,7 @@
 body {
     margin:0;
     padding:0;
-    background-color:darkgray;
+    background-color:rgb(26, 41, 8);
+    display:flex;
+    justify-content:center;
 }

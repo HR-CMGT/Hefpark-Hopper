@@ -1,69 +1,29 @@
-import { Vector, Physics, Scene, Actor, CollisionType } from "excalibur";
+import { Vector, Scene, Actor, CollisionType, Keys } from "excalibur";
 import { Resources } from "../resources";
-
 import { BossFloor } from "./bossBottomBorder";
 import { BossSpider } from "./boss";
 import { MaincharacterBoss } from "./bossCharacter";
 import { BackgroundBoss } from "./bossBackground";
 import { BossPlatform } from "./bossPlatform";
 import { UI } from "./allElementsOnScreen";
-import music from "../../sounds/boss.mp3"
-
 
 export class BossFight extends Scene {
 
-    character;
-    boss;
-    damage;
+    character
+    boss
+    damage
+    ui
+    bgMusic
 
     constructor() {
-
         super({
             width: 854,
             height: 600
         })
-
-        Physics.useRealisticPhysics();
-        Physics.gravity = new Vector(0, 800);
-
-    }
-
-    addWebShot(webShoot) {
-
-        this.add(webShoot);
-        webShoot.actions.meet(this.character, 380);
-
-    }
-
-    updateBossHealth(hitpoints) {
-
-        this.ui.bossDamaged(hitpoints);
-
-    }
-
-    hearts(value) {
-
-        this.ui.updateHealth(value);
-
-    }
-
-    onActivate(ctx) {
-        this.bgMusic = new Audio(music)
-        this.bgMusic.loop = true
-        this.bgMusic.play()
-
-        this.character.pos = new Vector(400, 0);
-        this.boss.pos = new Vector(1000, 480)
-
-        this.character.reset();
-        this.boss.bossReset();
-
-        this.ui = new UI();
-        this.add(this.ui);
-        this.ui.pos = new Vector(10, 30)
     }
 
     onInitialize(engine) {
+        this.bgMusic = Resources.BossMusic
 
         const backgroundBoss = new BackgroundBoss();
         this.add(backgroundBoss);
@@ -101,12 +61,39 @@ export class BossFight extends Scene {
 
         this.boss = new BossSpider();
         this.add(this.boss);
-        this.boss.pos = new Vector(1000, 480);
+        this.boss.pos = new Vector(900, 460);
+    }
+
+    onActivate(ctx) {
+        this.bgMusic.loop = true
+        this.bgMusic.play()
+
+        this.character.pos = new Vector(400, 0);
+        this.boss.pos = new Vector(900, 460)
+
+        this.character.reset();
+        this.boss.bossReset();
+
+        this.ui = new UI();
+        this.add(this.ui);
+        this.ui.pos = new Vector(10, 30)
     }
 
     onDeactivate() {
-
         this.ui.kill();
         this.bgMusic.pause()
+    }
+
+    addWebShot(webShoot) {
+        this.add(webShoot);
+        webShoot.actions.meet(this.character, 380);
+    }
+
+    updateBossHealth(hitpoints) {
+        this.ui.bossDamaged(hitpoints);
+    }
+
+    hearts(value) {
+        this.ui.updateHealth(value);
     }
 }

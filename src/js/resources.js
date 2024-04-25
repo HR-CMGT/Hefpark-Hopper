@@ -1,4 +1,4 @@
-import { ImageSource, Loader } from 'excalibur'
+import { ImageSource, Sound, Loader } from 'excalibur'
 
 // level one
 import backgroundImage from "../images/background2.png"
@@ -50,7 +50,7 @@ import bossPlatform from "../images/bossPlatform.png"
 
 // cutscenes
         //bg
-import startAndFinalSceneBgImg from "../images/cutscenes/startendscene.png"
+import startAndFinalSceneBgImg from "../images/cutscenes/startendscene1440.png"
 import cutsceneOneBgImg from "../images/cutscenes/cutscene1.png"
 import cutsceneTwoBgImg from "../images/cutscenes/cutscene2.png"
 import cutsceneThreeBgImg from "../images/cutscenes/cutscene3.png"
@@ -102,7 +102,26 @@ import shortcutTwo from "../images/levelTwoShortcut.png"
 import shortcutThree from "../images/levelThreeShortcut.png"
 import shortcutFour from "../images/levelFourShortcut.png"
 
+
+import failMusic from "../sounds/Sad.mp4"
+import victoryMusic from "../sounds/Victory.mp4"
+import music from "../sounds/bee.mp3"
+import bossvictoryMusic from "../sounds/Victoryboss.mp4"
+import jumpSound from "../sounds/Jump.mp4"
+import bosscutsceneMusic from "../sounds/Bosscutscene.mp3"
+import bossmusic from "../sounds/boss.mp3"
+import characterattackSound from "../sounds/Attack.mp3"
+
 const Resources = {
+    FailMusic: new Sound(failMusic),
+    VictoryMusic: new Sound(victoryMusic),
+    Music: new Sound(music),
+    BossvictoryMusic: new Sound(bossvictoryMusic),
+    BossCutsceneMusic: new Sound(bosscutsceneMusic),
+    JumpSound: new Sound(jumpSound),
+    BossMusic: new Sound(bossmusic),
+    CharacterAttackSound: new Sound(characterattackSound),
+    
 
     // lvl one
     Background: new ImageSource(backgroundImage),
@@ -207,6 +226,15 @@ const Resources = {
 
 }
 const ResourceLoader = new Loader([
+
+    Resources.FailMusic,
+    Resources.VictoryMusic,
+    Resources.Music,
+    Resources.BossvictoryMusic,
+    Resources.JumpSound,
+    Resources.BossCutsceneMusic,
+    Resources.BossMusic,
+    Resources.CharacterAttackSound,
 
     // lvl one
     Resources.Background,

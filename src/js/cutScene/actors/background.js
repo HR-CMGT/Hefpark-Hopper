@@ -6,15 +6,16 @@ export class CutsceneStartEndBackground extends Actor {
     constructor(x, y) {
         super({
             pos: new Vector(x, y),
-            width: 1519,
-            height: 600,
+            width: 1440, //1519,
+            height: 900, //600,
             anchor: Vector.Zero,
         });
 
         const spriteOne = Resources.StartAndFinalSceneBg.toSprite();
-        spriteOne.width = 1519
-        spriteOne.height = 600
+        spriteOne.width = 1440
+        spriteOne.height = 900
         this.graphics.add(spriteOne);
+        this.scale = new Vector(0.85, 0.85 )
     }
 }
 
@@ -22,13 +23,13 @@ export class CutsceneOneBackground extends Actor {
     constructor(x, y) {
         super({
             pos: new Vector(x, y),
-            width: 1875,
-            height: 600,
+            width: 1440,
+            height: 900,
             anchor: Vector.Zero,
         });
         const sprite = Resources.CutsceneOneBg.toSprite();
-        sprite.width = 1875
-        sprite.height = 600
+        sprite.width = 1440
+        sprite.height = 900
         this.graphics.add(sprite);
     }
 }

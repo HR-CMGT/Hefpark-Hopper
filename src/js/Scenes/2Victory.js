@@ -1,8 +1,8 @@
-import { Color, Font, FontUnit, Label, Scene, Vector } from "excalibur";
+import { Color, Font, FontUnit, Label, Scene, Vector, Keys } from "excalibur";
 import { NextLvlButton } from "../Actors/button.js";
 import { TwoFailVicBackground } from "./failVictoryActors/background.js";
 import { VictoryText } from "./failVictoryActors/text.js";
-import victoryMusic from "../../sounds/Victory.mp4"
+import { Resources, ResourceLoader } from '../resources.js'
 
 export class VictoryTwo extends Scene {
     game
@@ -14,10 +14,18 @@ export class VictoryTwo extends Scene {
     onInitialize(_engine) {
         super.onInitialize(_engine);
         this.game = _engine
+
+        // gamepad
+        if (this.game.gamepad) {
+            this.game.gamepad.on('button', () => {
+                this.victoryMusic.pause()
+                this.game.goToScene('secondCutscene')
+            })
+        }
     }
     onActivate(_context) {
         super.onActivate(_context);
-        this.victoryMusic = new Audio(victoryMusic)
+        this.victoryMusic = Resources.VictoryMusic
         this.victoryMusic.loop = true
         this.victoryMusic.play()
         this.startVictoryTwo()
@@ -26,16 +34,15 @@ export class VictoryTwo extends Scene {
 
         this.actors.forEach((actor) => actor.kill());
 
-        console.log('victory one')
         let background = new TwoFailVicBackground(0, 0)
         this.add(background)
 
-        let victory = new VictoryText(screen.width / 2 - 100, 150)
+        let victory = new VictoryText(screen.width / 2 - 200, 150)
         this.add(victory)
 
         let label2 = new Label({
-            text: `Score: ${this.score}`,
-            pos: new Vector(500, 400),
+            text: `Score: ${this.score.getScore()}`,
+            pos: new Vector(500, 300),
             font: new Font({
                 family: 'impact',
                 size: 35,
@@ -46,11 +53,18 @@ export class VictoryTwo extends Scene {
         this.add(label2)
 
         let nextLvlButton = new NextLvlButton()
-        nextLvlButton.pos = new Vector(650, 500)
+        nextLvlButton.pos = new Vector(570, 450)
         nextLvlButton.on('pointerup', () => {
-            this.game.goToScene('secondCutscene')
             this.victoryMusic.pause()
+            this.game.goToScene('secondCutscene')
         })
         this.add(nextLvlButton)
+    }
+
+    onPreUpdate(_engine, delta) {
+        if (this.game.input.keyboard.wasPressed(Keys.Space)) {
+            this.victoryMusic.pause()
+            this.game.goToScene('secondCutscene')
+        }
     }
 }

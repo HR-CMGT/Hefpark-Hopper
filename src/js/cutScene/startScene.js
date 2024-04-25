@@ -1,9 +1,9 @@
-import {Scene, Vector} from "excalibur";
-import {StartButton} from "../Actors/button.js";
-import {CutsceneOneBackground} from "./actors/background.js";
-import {CsBeeBaby, CsBeeHappy, CsBeeMad, CsSpider} from "./actors/characters.js";
-import {CsTextBox} from "./actors/text.js";
-import {Resources} from "../resources.js";
+import { Scene, Vector, Keys } from "excalibur";
+import { StartButton } from "../Actors/button.js";
+import { CutsceneOneBackground } from "./actors/background.js";
+import { CsBeeBaby, CsBeeHappy, CsBeeMad, CsSpider } from "./actors/characters.js";
+import { CsTextBox } from "./actors/text.js";
+import { Resources } from "../resources.js";
 import * as ex from "excalibur";
 
 export class StartCutscene extends Scene {
@@ -30,11 +30,11 @@ export class StartCutscene extends Scene {
         super.onActivate(_context);
         this.startCutScene()
     }
-    startCutScene(){
+    startCutScene() {
         console.log('cutscene start')
         this.actors.forEach((actor) => actor.kill());
 
-        let background = new CutsceneOneBackground(-100,0)
+        let background = new CutsceneOneBackground(0, 0)
         this.add(background)
 
         this.texts = [
@@ -48,14 +48,16 @@ export class StartCutscene extends Scene {
         this.currentTextIndex = 0;
         this.add(this.texts[this.currentTextIndex]);
 
-        const keys = ex.Input.Keys;
 
-
-        this.game.input.keyboard.on("press", (evt) => {
-            if (evt.key === keys.Space) { //Jumping
-                this.changeElements()
-            }
-        })
+        // this.game.input.keyboard.on("press", (evt) => {
+        //     if (evt.key === Keys.Space) {
+        //         this.changeElements()
+        //     }
+        // })
+        // gamepad todo test
+        if (this.game.gamepad) {
+            this.game.gamepad.on('button', () => this.changeElements())
+        }
 
         this.beeHappy = new CsBeeHappy(200, 200)
         this.add(this.beeHappy)
@@ -70,6 +72,11 @@ export class StartCutscene extends Scene {
         this.add(this.beeBabyThree)
 
     }
+    onPreUpdate(engine, delta) {
+        if (engine.input.keyboard.wasPressed(Keys.Space)) {
+            this.changeElements()
+        }
+    }
 
     changeElements() {
         if (this.currentTextIndex < this.texts.length - 1) {
@@ -80,23 +87,28 @@ export class StartCutscene extends Scene {
             this.texts[this.currentTextIndex].kill();
             this.currentTextIndex++;
             let start = new StartButton();
-            start.pos = new Vector(screen.width/2-100, 500);
+            start.pos = new Vector(screen.width / 2 - 200, 400);
             start.on("pointerup", () => {
                 this.game.goToScene("LevelOne");
             });
             this.add(start);
-        }    if (this.currentTextIndex === 1) {
+            this.beeMad.actions.moveTo(1300, 1000, 400)
+        } else if (this.currentTextIndex === 5){
+            this.game.goToScene("LevelOne");
+        }
+        
+        if (this.currentTextIndex === 1) {
             this.beeHappy.kill()
-            this.beeMad = new CsBeeMad(200,200)
+            this.beeMad = new CsBeeMad(200, 200)
             this.add(this.beeMad)
 
             this.spider = new CsSpider(1000, 300)
-            this.spider.actions.moveTo(850,300, 200)
+            this.spider.actions.moveTo(850, 300, 200)
             this.add(this.spider)
 
 
         } else if (this.currentTextIndex === 2) {
-            this.spider.actions.moveTo(1300,300, 200)
+            this.spider.actions.moveTo(1600, 300, 200)
 
         } else if (this.currentTextIndex === 3) {
             this.beeMad.actions.moveTo(600, 200, 400)
@@ -105,7 +117,7 @@ export class StartCutscene extends Scene {
             this.beeBabyThree.actions.moveTo(- 100, 90, 200)
 
         } else if (this.currentTextIndex === 5) {
-            this.beeMad.actions.moveTo(1300, 1000, 400)
+            // this.beeMad.actions.moveTo(1300, 1000, 400)
         }
 
     }

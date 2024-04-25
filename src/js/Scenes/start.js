@@ -1,23 +1,16 @@
-import {Scene, Vector} from "excalibur";
+import {Scene, Vector, Keys} from "excalibur";
 import {GameOverButton, NextLvlButton, StartButton} from "../Actors/button.js";
 import {CutsceneStartEndBackground} from "../cutScene/actors/background.js";
 import { Logo } from "../Actors/logo.js"
-import { ShortcutFirst } from "../Actors/shortcut1.js";
-import { ShortcutSecond } from "../Actors/shortcut2.js";
-import { ShortcutThird } from "../Actors/shortcut3.js";
-import { ShortcutFourth } from "../Actors/shortcut4.js";
 
 export class Start extends Scene {
 
     game
 
-    constructor() {
-        super();
-    }
-
     onInitialize(_engine) {
         super.onInitialize(_engine);
         this.game = _engine
+        
     }
 
     onActivate(_context) {
@@ -25,58 +18,49 @@ export class Start extends Scene {
         this.startScene()
     }
 
+    onPreUpdate(_engine, delta) {
+        if (this.game.input.keyboard.wasPressed(Keys.Space)) {
+            this.buttonPressed()
+        }
+    }
+
     startScene(){
         this.actors.forEach((actor) => actor.kill());
 
-        let background = new CutsceneStartEndBackground(-100,0)
+        let background = new CutsceneStartEndBackground(0,0)
         this.add(background)
-        console.log(background)
 
         const logo = new Logo();
         this.add(logo);
-        logo.pos = new Vector(600,200);
+        logo.pos = new Vector(this.game.halfDrawWidth,this.game.drawHeight / 4);
 
-        console.log('startscherm')
         let start = new StartButton()
-        start.pos = new Vector(600, 450)
-        start.on('pointerup', () => {
-            this.game.goToScene('startCutscene')
-        })
+        start.pos = new Vector(this.game.halfDrawWidth, this.game.drawHeight * 0.78);
         this.add(start)
-
-        let levelTwo = new ShortcutSecond()
-        levelTwo.pos = new Vector(100, 150)
-        levelTwo.on('pointerup', () => {
-            this.game.goToScene('firstCutscene')
-        })
-
-        this.add(levelTwo)
-
         
-        let levelThree = new ShortcutThird()
-        levelThree.pos = new Vector(100, 270)
-        levelThree.on('pointerup', () => {
-            this.game.goToScene('secondCutscene')
-        })
+        // click 
+        start.on('pointerup', (buttonevent) => this.buttonPressed(buttonevent))
+        // gamepad
+        if (this.game.gamepad) {
+            this.game.gamepad.on('button', (buttonevent) => this.buttonPressed(buttonevent))
+        }
+    }
 
-        this.add(levelThree)
+    buttonPressed(buttonevent) {
+        this.game.goToScene('startCutscene')
 
-        let PreBossfight = new ShortcutFourth()
-        PreBossfight.pos = new Vector(100, 400)
-        PreBossfight.on('pointerup', () => {
-            this.game.goToScene('thirdCutScene')
-        })
-
-        this.add(PreBossfight)
-
-        let finalCutscene = new GameOverButton()
-        finalCutscene.pos = new Vector(1050, 500)
-        finalCutscene.on('pointerup', () => {
-            this.game.goToScene('bossCutscene')
-        })
-
-        this.add(finalCutscene)
-    
+        // for debugging
+        // this.game.goToScene("LevelOne")
+        //this.game.goToScene('VictoryOne')
+        //this.game.goToScene('VictoryTwo')
+        //this.game.goToScene('secondCutscene')
+        //this.game.goToScene('FailThree')
+        //this.game.goToScene('VictoryThree')
+        //this.game.goToScene('thirdCutScene')
+        //this.game.goToScene('bossFight')
+        //this.game.goToScene('bossFail');
+        //this.game.goToScene('bossVictory')
+        //this.game.goToScene('bossCutscene')
 
     }
 }

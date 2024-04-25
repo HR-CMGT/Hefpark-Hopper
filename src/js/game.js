@@ -1,5 +1,6 @@
 import '../css/style.css'
 import * as ex from "excalibur"
+import { SolverStrategy } from "excalibur";
 import { ResourceLoader } from './resources.js'
 
 import { LevelOne } from './Scenes/1Level.js'
@@ -27,28 +28,39 @@ import { BossScene } from "./cutScene/bossScene.js";
 
 
 export class Game extends ex.Engine {
+
     score
+    gamepad
 
     constructor() {
-
         super({
-            // width: 854,
-            // height: 600,
-            displayMode: ex.DisplayMode.FitScreenAndFill,
-            maxFps: 60
+            displayMode: ex.DisplayMode.FitScreen,
+            //width: 1440, 
+            //height: 900,
+            width: 1100,//854,
+            height: 600,
+            suppressPlayButton: true,
+            maxFps:60,
+            backgroundColor: ex.Color.fromRGB(10,10,10),
+            physics: {
+                solver: SolverStrategy.Realistic,
+                gravity: new ex.Vector(0, 750),
+            }
         });
 
         this.start(ResourceLoader).then(() => this.startGame());
-        // this.showDebug(true);
-        // ex.Physics.useRealisticPhysics();
-        ex.Physics.acc = new ex.vec(0, 300);
         this.score = new Score()
     }
 
     startGame() {
+        this.input.keyboard.enabled = true
+        this.input.gamepads.enabled = true
+        this.input.gamepads.on('connect', (connectevent) => {
+            console.log('Gamepad connected', connectevent)
+            this.gamepad = connectevent.gamepad
+        })
 
         this.addScene('Start', new Start)
-        this.goToScene('Start')
 
         this.addScene("startCutscene", new StartCutscene)
 
@@ -76,6 +88,10 @@ export class Game extends ex.Engine {
         this.addScene("bossFail", new FailBoss)
         this.addScene("bossCutscene", new BossScene)
         this.addScene("bossVictory", new VictoryBoss(this.score))
+
+
+        this.goToScene('Start')
+
     }
 }
 
