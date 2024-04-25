@@ -1,17 +1,17 @@
 import { ImageSource, Sound, Loader } from 'excalibur'
 
 // level one
-import backgroundImage from "../images/background2.png"
+import backgroundImage from "../images/background2.jpg"
 import platformImage from "../images/platform.png"
 import spikeImage from "../images/spikes.png"
 
 // level two
-import backgroundLvTwoImg from "../images/bglvl2.png"
+import backgroundLvTwoImg from "../images/bglvl2.jpg"
 import platformLvTwoImg from "../images/platformlvl2.png"
 import spikesLvlTwoImg from "../images/spikeslvl2.png"
 
 // level three
-import backgroundLvlThreeImg from "../images/backgroundlvl3.png"
+import backgroundLvlThreeImg from "../images/backgroundlvl3.jpg"
 import platformLvlThreeImg from "../images/platformlvl3.png"
 import spikesLvlThreeImg from "../images/spikeslvl3.png"
 
@@ -45,7 +45,7 @@ import bossHit from "../images/bossspiderhit.png"
 import honeyBomb from "../images/honeyBomb.png"
 import bossWeb from "../images/bossWeb.png"
 import bossFloorTemp from "../images/tempFloorBoss.png"
-import bossBackground from "../images/bossBackground.png"
+import bossBackground from "../images/bossBackground.jpg"
 import bossPlatform from "../images/bossPlatform.png"
 
 // cutscenes
