@@ -50,7 +50,7 @@ export class FailOne extends Scene {
             this.failMusic.pause()
             this.game.goToScene('LevelOne')
         }
-        if (_engine.input.gamepads.at(0)?.isButtonPressed(Buttons.Face1)) {
+        if (_engine.input.gamepads.at(0)?.wasButtonPressed(Buttons.Face1)) {
             this.failMusic.pause()
             this.game.goToScene('LevelOne')
         }

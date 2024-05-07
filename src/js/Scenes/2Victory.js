@@ -66,12 +66,12 @@ export class VictoryTwo extends Scene {
             this.victoryMusic.pause()
             this.game.goToScene('secondCutscene')
         }
-        if (_engine.input.gamepads.at(0)?.isButtonPressed(Buttons.Face1)) {
+        if (_engine.input.gamepads.at(0)?.wasButtonPressed(Buttons.Face1)) {
             this.victoryMusic.pause()
             this.game.goToScene('secondCutscene')
         }
     }
     onDeactivate() {
-        this.failMusic.pause()
+        this.victoryMusic.pause()
     }
 }

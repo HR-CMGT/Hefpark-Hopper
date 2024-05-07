@@ -48,7 +48,6 @@ export class Start extends Scene {
 
     buttonPressed(buttonevent) {
         this.game.goToScene('startCutscene')
-
         // for debugging
         // this.game.goToScene("LevelOne")
         //this.game.goToScene('VictoryOne')

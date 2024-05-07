@@ -65,7 +65,7 @@ export class VictoryThree extends Scene {
             this.victoryMusic.pause()
             this.game.goToScene('thirdCutScene')
         }
-        if (_engine.input.gamepads.at(0)?.isButtonPressed(Buttons.Face1)) {
+        if (_engine.input.gamepads.at(0)?.wasButtonPressed(Buttons.Face1)) {
             this.victoryMusic.pause()
             this.game.goToScene('thirdCutScene')
         }
