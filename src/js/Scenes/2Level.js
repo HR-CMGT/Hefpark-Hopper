@@ -1,4 +1,4 @@
-import { CollisionType, Scene, Vector, Actor } from "excalibur";
+import { CollisionType, Scene, Vector, Actor, Buttons } from "excalibur";
 import { GameOverButton, NextLvlButton } from "../Actors/button.js";
 import { BackgroundLvlTwo } from "../Actors/Background.js";
 import { Maincharacter } from "../Actors/character.js";

@@ -1,4 +1,4 @@
-import {Scene, Vector, Keys} from "excalibur";
+import { Scene, Vector, Keys, Buttons } from "excalibur";
 import {StartButton} from "../Actors/button.js";
 import {CutsceneThreeBackground, CutsceneTwoBackground} from "./actors/background.js";
 import { Resources, ResourceLoader } from '../resources.js'
@@ -52,6 +52,9 @@ export class SecondCutscene extends Scene {
 
     onPreUpdate(engine, delta) {
         if (engine.input.keyboard.wasPressed(Keys.Space)) {
+            this.changeElements()
+        }
+        if (engine.input.gamepads.at(0)?.wasButtonPressed(Buttons.Face1)) {
             this.changeElements()
         }
     }

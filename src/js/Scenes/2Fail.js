@@ -1,4 +1,4 @@
-import { Scene, Vector, Keys } from "excalibur";
+import { Scene, Vector, Keys, Buttons } from "excalibur";
 import { TryAgainButton } from "../Actors/button.js";
 import { TwoFailVicBackground } from "./failVictoryActors/background.js";
 import { FailText } from "./failVictoryActors/text.js";
@@ -13,12 +13,12 @@ export class FailTwo extends Scene {
         super.onInitialize(_engine);
         this.game = _engine
         // gamepad
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => {
-                this.failMusic.pause()
-                this.game.goToScene('LevelTwo')
-            })
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => {
+        //         this.failMusic.pause()
+        //         this.game.goToScene('LevelTwo')
+        //     })
+        // }
     }
     onActivate(_context) {
         super.onActivate(_context);
@@ -46,6 +46,10 @@ export class FailTwo extends Scene {
 
     onPreUpdate(_engine, delta) {
         if (this.game.input.keyboard.wasPressed(Keys.Space)) {
+            this.failMusic.pause()
+            this.game.goToScene('LevelTwo')
+        }
+        if (_engine.input.gamepads.at(0)?.isButtonPressed(Buttons.Face1)) {
             this.failMusic.pause()
             this.game.goToScene('LevelTwo')
         }

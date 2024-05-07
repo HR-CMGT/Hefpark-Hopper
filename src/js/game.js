@@ -1,6 +1,6 @@
 import '../css/style.css'
 import * as ex from "excalibur"
-import { SolverStrategy } from "excalibur";
+import { SolverStrategy, Buttons } from "excalibur";
 import { ResourceLoader } from './resources.js'
 
 import { LevelOne } from './Scenes/1Level.js'
@@ -30,7 +30,7 @@ import { BossScene } from "./cutScene/bossScene.js";
 export class Game extends ex.Engine {
 
     score
-    gamepad
+    gamepad // word ingevuld in de start.js scene
 
     constructor() {
         super({

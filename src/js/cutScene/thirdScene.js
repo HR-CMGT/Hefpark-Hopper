@@ -1,4 +1,4 @@
-import {Scene, Vector, Keys} from "excalibur";
+import { Scene, Vector, Keys, Buttons } from "excalibur";
 import {StartButton} from "../Actors/button.js";
 import {CsBeeHappy, CsBeeMad, CsSpider} from "./actors/characters.js";
 import {CsTextBox} from "./actors/text.js";
@@ -21,11 +21,11 @@ export class ThirdCutscene extends Scene {
         super.onInitialize(_engine);
         this.game = _engine
         // gamepad
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => {
-                this.changeElements()
-            })
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => {
+        //         this.changeElements()
+        //     })
+        // }
     }
     onActivate(_context) {
         super.onActivate(_context);
@@ -85,6 +85,9 @@ export class ThirdCutscene extends Scene {
 
     onPreUpdate(engine, delta) {
         if (engine.input.keyboard.wasPressed(Keys.Space)) {
+            this.changeElements()
+        }
+        if (engine.input.gamepads.at(0)?.wasButtonPressed(Buttons.Face1)) {
             this.changeElements()
         }
     }

@@ -1,4 +1,4 @@
-import { Scene, Vector, Keys } from "excalibur";
+import { Scene, Vector, Keys, Buttons } from "excalibur";
 import { TryAgainButton } from "../Actors/button.js";
 import { FailText } from "./failVictoryActors/text.js";
 import { ThreeFailVicBackground } from "./failVictoryActors/background.js";
@@ -14,13 +14,13 @@ export class FailThree extends Scene {
         this.game = _engine
 
         // gamepad todo check of listener alleen in deze scene werkt
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => {
-                //console.log("you pressed the gamepad and will go to level three")
-                this.failMusic.pause()
-                this.game.goToScene('LevelThree')
-            })
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => {
+        //         //console.log("you pressed the gamepad and will go to level three")
+        //         this.failMusic.pause()
+        //         this.game.goToScene('LevelThree')
+        //     })
+        // }
     }
 
     onActivate(_context) {
@@ -52,6 +52,10 @@ export class FailThree extends Scene {
 
     onPreUpdate(_engine, delta) {
         if (this.game.input.keyboard.wasPressed(Keys.Space)) {
+            this.failMusic.pause()
+            this.game.goToScene('LevelThree')
+        }
+        if (_engine.input.gamepads.at(0)?.isButtonPressed(Buttons.Face1)) {
             this.failMusic.pause()
             this.game.goToScene('LevelThree')
         }

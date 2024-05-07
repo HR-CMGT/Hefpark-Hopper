@@ -1,4 +1,4 @@
-import { Scene, Vector, Keys } from "excalibur"
+import { Scene, Vector, Keys, Buttons } from "excalibur"
 import { StartButton, TryAgainButton } from "../Actors/button.js";
 import { CutsceneOneBackground } from "../cutScene/actors/background.js";
 import { OneFailVicBackground } from "./failVictoryActors/background.js";
@@ -15,9 +15,9 @@ export class FailOne extends Scene {
         super.onInitialize(_engine);
         this.game = _engine
         // gamepad
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => this.game.goToScene('LevelOne'))
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => this.game.goToScene('LevelOne'))
+        // }
     }
     onActivate(_context) {
         super.onActivate(_context);
@@ -47,6 +47,10 @@ export class FailOne extends Scene {
 
     onPreUpdate(_engine, delta) {
         if (this.game.input.keyboard.wasPressed(Keys.Space)) {
+            this.failMusic.pause()
+            this.game.goToScene('LevelOne')
+        }
+        if (_engine.input.gamepads.at(0)?.isButtonPressed(Buttons.Face1)) {
             this.failMusic.pause()
             this.game.goToScene('LevelOne')
         }

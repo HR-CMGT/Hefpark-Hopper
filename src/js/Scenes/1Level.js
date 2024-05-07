@@ -1,5 +1,5 @@
 import * as ex from "excalibur"
-import { Keys } from "excalibur"
+import { Keys, Buttons } from "excalibur"
 import { Resources, ResourceLoader } from '../resources.js'
 import { Maincharacter } from '../Actors/character.js'
 import { PlatformLvlOne } from '../Actors/platform.js'
@@ -28,13 +28,16 @@ export class LevelOne extends ex.Scene {
         this.health = 2
 
         // gamepad
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => this.removeTutorial())
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => this.removeTutorial())
+        // }
     }
 
     onPreUpdate(_engine, delta) {
         if (this.game.input.keyboard.wasPressed(Keys.Space) || this.game.input.keyboard.wasPressed(Keys.Up) || this.game.input.keyboard.wasPressed(Keys.Right)) {
+            this.removeTutorial()
+        }
+        if (_engine.input.gamepads.at(0)?.isButtonPressed(Buttons.Face1)) {
             this.removeTutorial()
         }
     }

@@ -1,4 +1,4 @@
-import { Scene, Vector, Keys } from "excalibur";
+import { Scene, Vector, Keys, Buttons } from "excalibur";
 import {StartButton} from "../Actors/button.js";
 import {CutsceneStartEndBackground} from "./actors/background.js";
 import {CsBeeBaby, CsBeeHappy, CsBeeMad, CsSpider, CsSpiderDead} from "./actors/characters.js";
@@ -78,6 +78,9 @@ export class BossScene extends Scene {
 
     onPreUpdate(engine, delta) {
         if (engine.input.keyboard.wasPressed(Keys.Space)) {
+            this.changeElements()
+        }
+        if (engine.input.gamepads.at(0)?.wasButtonPressed(Buttons.Face1)) {
             this.changeElements()
         }
     }

@@ -10,12 +10,12 @@ export class FailBoss extends Scene {
     onInitialize(_engine) {
         this.game = _engine
         // gamepad
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => {
-                this.failMusic.pause()
-                this.game.goToScene('bossFight')
-            })
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => {
+        //         this.failMusic.pause()
+        //         this.game.goToScene('bossFight')
+        //     })
+        // }
     }
 
     onActivate(_context) {
@@ -47,6 +47,10 @@ export class FailBoss extends Scene {
 
     onPreUpdate(_engine, delta) {
         if (this.game.input.keyboard.wasPressed(Keys.Space)) {
+            this.failMusic.pause()
+            this.game.goToScene('bossFight')
+        }
+        if (_engine.input.gamepads.at(0)?.isButtonPressed(Buttons.Face1)) {
             this.failMusic.pause()
             this.game.goToScene('bossFight')
         }

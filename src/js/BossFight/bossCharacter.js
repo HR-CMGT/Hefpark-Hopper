@@ -61,9 +61,9 @@ export class MaincharacterBoss extends Actor {
         this.on('collisionstart', (event) => { this.isGrounded(event) });
 
         // gamepad support - todo test with two buttons , one for jump and one for attack
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => this.checkAttack())
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => this.checkAttack())
+        // }
 
         this.game.currentScene.add(this.timer)
         this.game.currentScene.add(this.attackTimer)
@@ -122,8 +122,11 @@ export class MaincharacterBoss extends Actor {
         }
 
         // gamepad support - todo test
-        if (this.game.gamepad) {
-            xspeed = this.gamepad.getAxes(Axes.LeftStickX)
+        if (engine.input.gamepads.at(0)?.wasButtonPressed(Buttons.Face1)) {
+            this.checkAttack()
+        }
+        if (engine.gamepad) {
+            xspeed = engine.gamepad.getAxes(Axes.LeftStickX) * 240
         }
 
         this.vel = new Vector(xspeed, this.vel.y + yspeed)

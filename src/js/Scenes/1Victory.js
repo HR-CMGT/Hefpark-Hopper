@@ -1,4 +1,4 @@
-import { Scene, Vector, Font, Label, FontUnit, Color, Keys } from "excalibur";
+import { Scene, Vector, Font, Label, FontUnit, Color, Keys, Buttons } from "excalibur";
 import { Resources, ResourceLoader } from '../resources.js'
 import { NextLvlButton, TryAgainButton } from "../Actors/button.js";
 import { OneFailVicBackground } from "./failVictoryActors/background.js";
@@ -15,12 +15,12 @@ export class VictoryOne extends Scene {
         super.onInitialize(_engine);
         this.game = _engine
         // gamepad
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => {
-                this.victoryMusic.pause()
-                this.game.goToScene('firstCutscene')
-            })
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => {
+        //         this.victoryMusic.pause()
+        //         this.game.goToScene('firstCutscene')
+        //     })
+        // }
     }
     onActivate(_context) {
         super.onActivate(_context);
@@ -61,6 +61,11 @@ export class VictoryOne extends Scene {
 
     onPreUpdate(_engine, delta) {
         if (this.game.input.keyboard.wasPressed(Keys.Space)) {
+            this.victoryMusic.pause()
+            this.game.goToScene('firstCutscene')
+        }
+
+        if (_engine.input.gamepads.at(0)?.isButtonPressed(Buttons.Face1)) {
             this.victoryMusic.pause()
             this.game.goToScene('firstCutscene')
         }

@@ -1,4 +1,4 @@
-import { Scene, Vector, Keys } from "excalibur";
+import { Scene, Vector, Keys, Buttons, Input } from "excalibur";
 import { StartButton } from "../Actors/button.js";
 import { CutsceneOneBackground } from "./actors/background.js";
 import { CsBeeBaby, CsBeeHappy, CsBeeMad, CsSpider } from "./actors/characters.js";
@@ -55,9 +55,9 @@ export class StartCutscene extends Scene {
         //     }
         // })
         // gamepad todo test
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => this.changeElements())
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => this.changeElements())
+        // }
 
         this.beeHappy = new CsBeeHappy(200, 200)
         this.add(this.beeHappy)
@@ -74,6 +74,10 @@ export class StartCutscene extends Scene {
     }
     onPreUpdate(engine, delta) {
         if (engine.input.keyboard.wasPressed(Keys.Space)) {
+            this.changeElements()
+        }
+        if (engine.input.gamepads.at(0)?.wasButtonPressed(Buttons.Face1)) {
+            console.log("start cutscene button pressed")
             this.changeElements()
         }
     }

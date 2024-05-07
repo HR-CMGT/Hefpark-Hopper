@@ -1,4 +1,4 @@
-import {Scene, Vector, Keys} from "excalibur";
+import { Scene, Vector, Keys, Buttons } from "excalibur";
 import {StartButton} from "../Actors/button.js";
 import {Resources, ResourceLoader } from '../resources.js'
 import {CutsceneOneBackground, CutsceneTwoBackground} from "./actors/background.js";
@@ -17,11 +17,11 @@ export class FirstCutscene extends Scene {
         super.onInitialize(_engine);
         this.game = _engine
         // gamepad
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => {
-                this.changeElements()
-            })
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => {
+        //         this.changeElements()
+        //     })
+        // }
     }
     onActivate(_context) {
         super.onActivate(_context);
@@ -47,6 +47,9 @@ export class FirstCutscene extends Scene {
 
     onPreUpdate(engine, delta) {
         if (engine.input.keyboard.wasPressed(ex.Keys.Space)) {
+            this.changeElements()
+        }
+        if (engine.input.gamepads.at(0)?.wasButtonPressed(Buttons.Face1)) {
             this.changeElements()
         }
     }

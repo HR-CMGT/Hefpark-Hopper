@@ -1,5 +1,5 @@
 import * as ex from "excalibur";
-import { Vector, Keys, Axes } from "excalibur";
+import { Vector, Keys, Axes, Buttons } from "excalibur";
 import { Resources } from "../resources";
 import { PlatformLvlOne } from "./platform.js";
 import { PlatformLvlTwo } from "./platform.js";
@@ -37,9 +37,9 @@ export class Maincharacter extends ex.Actor {
         this.jumpSound = Resources.JumpSound
         
         // gamepad support - todo test
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => this.jump())
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => this.jump())
+        // }
 
         this.on('collisionstart', (evt) => this.onCollisionStart(evt))
     }
@@ -62,15 +62,20 @@ export class Maincharacter extends ex.Actor {
         } else {
             this.vel.x = 0
         }
+
         // jump
         if (this.game.input.keyboard.wasPressed(Keys.W) || this.game.input.keyboard.wasPressed(Keys.Up)) {
             this.jump()
         }
         // gamepad support - todo test
-        if (this.game.gamepad) {
-            const xValue = this.gamepad.getAxes(Axes.LeftStickX)
-            this.vel = new Vector(xValue * 40, this.vel.y)
+        if (engine.input.gamepads.at(0)?.wasButtonPressed(Buttons.Face1)) {
+            this.jump()
         }
+        if (engine.gamepad) {
+            const xValue = engine.gamepad.getAxes(Axes.LeftStickX)
+            this.vel = new Vector(xValue * this.speed, this.vel.y)
+        }
+        
         
 
         // slow braking?

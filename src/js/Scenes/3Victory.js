@@ -1,4 +1,4 @@
-import { Color, Font, FontUnit, Label, Scene, Vector, Keys } from "excalibur";
+import { Color, Font, FontUnit, Label, Scene, Vector, Keys, Buttons } from "excalibur";
 import { NextLvlButton } from "../Actors/button.js";
 import { ThreeFailVicBackground, TwoFailVicBackground } from "./failVictoryActors/background.js";
 import { VictoryText } from "./failVictoryActors/text.js";
@@ -15,12 +15,12 @@ export class VictoryThree extends Scene {
         super.onInitialize(_engine);
         this.game = _engine
         // gamepad
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', () => {
-                this.victoryMusic.pause()
-                this.game.goToScene('thirdCutScene')
-            })
-        }
+        // if (this.game.gamepad) {
+        //     this.game.gamepad.on('button', () => {
+        //         this.victoryMusic.pause()
+        //         this.game.goToScene('thirdCutScene')
+        //     })
+        // }
     }
     onActivate(_context) {
         super.onActivate(_context);
@@ -62,6 +62,10 @@ export class VictoryThree extends Scene {
 
     onPreUpdate(_engine, delta) {
         if (this.game.input.keyboard.wasPressed(Keys.Space)) {
+            this.victoryMusic.pause()
+            this.game.goToScene('thirdCutScene')
+        }
+        if (_engine.input.gamepads.at(0)?.isButtonPressed(Buttons.Face1)) {
             this.victoryMusic.pause()
             this.game.goToScene('thirdCutScene')
         }

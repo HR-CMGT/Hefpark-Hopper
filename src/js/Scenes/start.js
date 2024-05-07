@@ -1,4 +1,4 @@
-import {Scene, Vector, Keys} from "excalibur";
+import { Scene, Vector, Keys, Buttons } from "excalibur";
 import {GameOverButton, NextLvlButton, StartButton} from "../Actors/button.js";
 import {CutsceneStartEndBackground} from "../cutScene/actors/background.js";
 import { Logo } from "../Actors/logo.js"
@@ -10,7 +10,6 @@ export class Start extends Scene {
     onInitialize(_engine) {
         super.onInitialize(_engine);
         this.game = _engine
-        
     }
 
     onActivate(_context) {
@@ -19,7 +18,11 @@ export class Start extends Scene {
     }
 
     onPreUpdate(_engine, delta) {
-        if (this.game.input.keyboard.wasPressed(Keys.Space)) {
+        if (_engine.input.keyboard.wasPressed(Keys.Space)) {
+            this.buttonPressed()
+        }
+        if (_engine.input.gamepads.at(0)?.isButtonPressed(Buttons.Face1)) {
+            console.log('Controller A button pressed')
             this.buttonPressed()
         }
     }
@@ -39,11 +42,8 @@ export class Start extends Scene {
         this.add(start)
         
         // click 
-        start.on('pointerup', (buttonevent) => this.buttonPressed(buttonevent))
-        // gamepad
-        if (this.game.gamepad) {
-            this.game.gamepad.on('button', (buttonevent) => this.buttonPressed(buttonevent))
-        }
+        // start.on('pointerup', (buttonevent) => this.buttonPressed(buttonevent))
+        
     }
 
     buttonPressed(buttonevent) {
